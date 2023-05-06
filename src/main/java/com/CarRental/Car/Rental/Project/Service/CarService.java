@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarService {
@@ -36,6 +37,15 @@ public List<Car> getAllCars(){
 return allCars;
 
 }
+
+public Car getCarById(int car_id){
+
+    Optional<Car> byId = carRepository.findById(car_id);
+    Car car = byId.get();
+    return car;
+
+}
+
 
 
 }

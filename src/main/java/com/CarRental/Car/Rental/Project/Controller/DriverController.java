@@ -24,7 +24,7 @@ public class DriverController {
 
     }
 
-    @GetMapping("/driver/allDrivers")
+    @GetMapping("/drivers")
     public List<Driver> getAllDrivers(){
 
         return driverService.getAllDrivers();

@@ -1,6 +1,8 @@
 package com.CarRental.Car.Rental.Project.Service;
 
+import com.CarRental.Car.Rental.Project.Entities.Booking;
 import com.CarRental.Car.Rental.Project.Entities.Customer;
+import com.CarRental.Car.Rental.Project.Repositories.BookingRepository;
 import com.CarRental.Car.Rental.Project.Repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,8 @@ import org.springframework.validation.BindingResult;
 public class CustomerService {
 @Autowired
 CustomerRepository customerRepository;
+@Autowired
+BookingRepository bookingRepository;
 
 
 public ResponseEntity<?>customerRegistration(Customer customer, BindingResult result){
@@ -19,7 +23,14 @@ public ResponseEntity<?>customerRegistration(Customer customer, BindingResult re
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("false");
 
     }else{
+        System.out.println("before creating new booking");
+        Booking booking= new Booking();
+        booking.setNumBags(0);
+//      bookingRepository.save(booking);
+        customer.setBooking(booking);
         Customer save = customerRepository.save(customer);
+
+
     }
     return ResponseEntity.ok().body(customer);
 //In Spring MVC, when we use data binding to map request parameters to a model object,

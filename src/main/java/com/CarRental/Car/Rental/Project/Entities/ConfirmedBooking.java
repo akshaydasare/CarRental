@@ -1,72 +1,57 @@
 package com.CarRental.Car.Rental.Project.Entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import net.bytebuddy.asm.Advice;
-
 import javax.persistence.*;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.UUID;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Max;
-import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.UUID;
 
 @Entity
 @Table
-public class Booking {
-@Id
-private String id= UUID.randomUUID().toString();
-//generates a random unique string.
-@Max(20)
-private Long days;
-@Future
-private LocalDate dropDate;
+public class ConfirmedBooking {
 
-private String dropLocation;
+    @Id
+    private String id= UUID.randomUUID().toString();
+    //generates a random unique string.
+    @Max(20)
+    private Long days;
+    @Future
+    private LocalDate dropDate;
 
-private String members;
+    private String dropLocation;
+
+    private String members;
+
+    private int numBags;
 
 
-@FutureOrPresent
-private LocalDate pickUpDate;
+    @FutureOrPresent
+    private LocalDate pickUpDate;
 
-private String pickUpLocation;
+    private String pickUpLocation;
 
-private LocalTime pickUpTime;
+    private LocalTime pickUpTime;
 
-private Long totalPrice;
+    private Long finalCost;
+    @OneToOne
+    private Car car;
+    @OneToOne
+    private Driver driver;
 
-private Integer numBags;
-
-@OneToOne
-private Car car;
-@OneToOne
-private Driver driver;
-
-//newly added:
+    //newly added:
 //    @ManyToOne
 //    @JoinColumn
 //    private Customer customer;
-
-    //newlyadded
-
     private String cardNo;
 
 
-
-
-
-    //===============================CONSTRUCTORS AND GETTER SETTERS==============================================//
-
-
-    public Booking() {
+    public ConfirmedBooking() {
     }
 
-    public Booking(String id, Long days, LocalDate dropDate, String dropLocation, String members, Integer numBags, LocalDate pickUpDate, String pickUpLocation, LocalTime pickUpTime, Long totalPrice, Car car, Driver driver, String cardNo) {
-        this.id = id;
+    public ConfirmedBooking(Long days, LocalDate dropDate, String dropLocation, String members, int numBags, LocalDate pickUpDate, String pickUpLocation, LocalTime pickUpTime, Long finalCost, Car car, Driver driver, String cardNo) {
+
         this.days = days;
         this.dropDate = dropDate;
         this.dropLocation = dropLocation;
@@ -75,22 +60,19 @@ private Driver driver;
         this.pickUpDate = pickUpDate;
         this.pickUpLocation = pickUpLocation;
         this.pickUpTime = pickUpTime;
-        this.totalPrice = totalPrice;
+        this.finalCost = finalCost;
         this.car = car;
         this.driver = driver;
-        this.cardNo = cardNo;
-    }
 
-    public String getCardNo() {
-        return cardNo;
-    }
-
-    public void setCardNo(String cardNo) {
         this.cardNo = cardNo;
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Long getDays() {
@@ -129,7 +111,7 @@ private Driver driver;
         return numBags;
     }
 
-    public void setNumBags(Integer numBags) {
+    public void setNumBags(int numBags) {
         this.numBags = numBags;
     }
 
@@ -157,12 +139,12 @@ private Driver driver;
         this.pickUpTime = pickUpTime;
     }
 
-    public Long getTotalPrice() {
-        return totalPrice;
+    public Long getFinalCost() {
+        return finalCost;
     }
 
-    public void setTotalPrice(Long totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setFinalCost(Long finalCost) {
+        this.finalCost = finalCost;
     }
 
     public Car getCar() {
@@ -181,11 +163,11 @@ private Driver driver;
         this.driver = driver;
     }
 
-//    public Customer getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(Customer customer) {
-//        this.customer = customer;
-//    }
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
 }

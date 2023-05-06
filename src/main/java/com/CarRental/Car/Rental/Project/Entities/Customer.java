@@ -1,5 +1,6 @@
 package com.CarRental.Car.Rental.Project.Entities;
 
+import org.hibernate.engine.internal.Cascade;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
@@ -24,10 +25,13 @@ public class Customer {
     private Date dob;
 
     private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    Booking booking;
+
 
     //new added:
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "customer")
-    private List<Booking> bookingList=new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<ConfirmedBooking> confirmedBookingList=new ArrayList<>();
 
     //============================CONSTRUCTORS AND GETTER SETTERS====================================//
 
@@ -35,13 +39,13 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String fname, String lname, String email, Date dob, String password, List<Booking> bookingList) {
+    public Customer(String fname, String lname, String email, Date dob, String password, List<ConfirmedBooking> confirmedBookingList) {
         this.fname = fname;
         this.lname = lname;
         this.email = email;
         this.dob = dob;
         this.password = password;
-        this.bookingList = bookingList;
+        this.confirmedBookingList = confirmedBookingList;
     }
 
     public int getId() {
@@ -80,17 +84,24 @@ public class Customer {
         this.dob = dob;
     }
 
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
 
     public void setPassword(String password) {
         String hashpw = BCrypt.hashpw(password, BCrypt.gensalt());
         this.password=hashpw;
     }
 
-    public List<Booking> getBookingList() {
-        return bookingList;
+    public List<ConfirmedBooking> getConfirmedBookingList() {
+        return confirmedBookingList;
     }
 
-    public void setBookingList(List<Booking> bookingList) {
-        this.bookingList = bookingList;
+    public void setConfirmedBookingList(List<ConfirmedBooking> confirmedBookingList) {
+        this.confirmedBookingList = confirmedBookingList;
     }
 }

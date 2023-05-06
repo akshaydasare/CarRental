@@ -5,10 +5,7 @@ import com.CarRental.Car.Rental.Project.Service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,10 +20,18 @@ public class CarController {
 
     }
 
-    @GetMapping("/car/allCars")
+    @GetMapping("/cars")
     public List<Car> getAllCars(){
 
         return carService.getAllCars();
+
+    }
+
+    @GetMapping("/book-car/{car_id}")
+    public Car getCarById(@PathVariable int car_id){
+    return carService.getCarById(car_id);
+
+
 
     }
 
