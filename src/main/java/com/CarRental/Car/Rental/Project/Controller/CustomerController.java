@@ -5,6 +5,8 @@ import com.CarRental.Car.Rental.Project.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +31,8 @@ public class CustomerController {
     }
 
 
-    @PostMapping("/logout")
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PostMapping("/customerLogout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         new SecurityContextLogoutHandler().logout(request, null, null);
         return ResponseEntity.ok().build();
