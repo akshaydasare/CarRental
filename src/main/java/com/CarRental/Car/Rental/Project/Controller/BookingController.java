@@ -5,6 +5,9 @@ import com.CarRental.Car.Rental.Project.Entities.Booking;
 import com.CarRental.Car.Rental.Project.Service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +17,11 @@ import javax.validation.Valid;
 public class BookingController {
         @Autowired
         BookingService bookingService;
-    @PostMapping("/book-now/{customer_id}")
-    public ResponseEntity<?> bookATrip(@Valid @RequestBody BookingFormPagePayloadDTO booking, BindingResult result , @PathVariable int customer_id) {
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @PostMapping("/book-now")
+    public ResponseEntity<?> bookATrip(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody BookingFormPagePayloadDTO booking, BindingResult result ) {
 
-        return bookingService.bookATrip(booking,result,customer_id);
+        return bookingService.bookATrip(userDetails,booking,result);
 
 
     }

@@ -28,6 +28,9 @@ public class Customer {
     @OneToOne(cascade = CascadeType.ALL)
     Booking booking;
 
+    private String role;
+
+
 
     //new added:
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -46,6 +49,18 @@ public class Customer {
         this.dob = dob;
         this.password = password;
         this.confirmedBookingList = confirmedBookingList;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public int getId() {

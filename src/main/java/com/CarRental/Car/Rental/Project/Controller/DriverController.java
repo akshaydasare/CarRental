@@ -4,6 +4,7 @@ import com.CarRental.Car.Rental.Project.Entities.Driver;
 import com.CarRental.Car.Rental.Project.Service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +18,14 @@ import java.util.List;
 public class DriverController {
     @Autowired
     DriverService driverService;
+    //TODO ALL
     @PostMapping("/driver/newDriver")
     public ResponseEntity<String> addDriver(@RequestBody @Valid Driver driver, BindingResult result){
 
         return driverService.addDriver(driver,result);
 
     }
-
+    @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/drivers")
     public List<Driver> getAllDrivers(){
 

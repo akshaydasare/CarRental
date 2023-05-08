@@ -24,12 +24,12 @@ public ResponseEntity<?>customerRegistration(Customer customer, BindingResult re
 
     }else{
         System.out.println("before creating new booking");
+        customer.setRole("CUSTOMER");
         Booking booking= new Booking();
         booking.setNumBags(0);
 //      bookingRepository.save(booking);
         customer.setBooking(booking);
         Customer save = customerRepository.save(customer);
-
 
     }
     return ResponseEntity.ok().body(customer);

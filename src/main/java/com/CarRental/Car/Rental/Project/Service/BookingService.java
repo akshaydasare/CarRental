@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.client.RestTemplate;
@@ -37,7 +38,7 @@ public class BookingService {
     @Autowired
     CustomerRepository customerRepository;
 
-public ResponseEntity<?>bookATrip(BookingFormPagePayloadDTO booking, BindingResult result, int customer_id){
+public ResponseEntity<?>bookATrip(UserDetails userDetails,BookingFormPagePayloadDTO booking, BindingResult result){
     //TODO : check seating cap of the car and validate the value entered in json
     //TODO: Limit No. of bags =4
 
@@ -52,8 +53,8 @@ public ResponseEntity<?>bookATrip(BookingFormPagePayloadDTO booking, BindingResu
     }
     //=================================================//
     else {
-        Optional<Customer> byId2 = customerRepository.findById(customer_id);
-        Customer customer = byId2.get();
+        String username = userDetails.getUsername();
+        Customer customer = customerRepository.findByEmail(username);
         Booking existingBooking = customer.getBooking();
 
 

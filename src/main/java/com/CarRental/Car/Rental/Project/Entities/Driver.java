@@ -1,5 +1,6 @@
 package com.CarRental.Car.Rental.Project.Entities;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
@@ -19,6 +20,7 @@ private int charges;
 private String drink;
 private String driverImg;
 //
+
 private Long driverMobNo;
 //IN the DEMO, THIS VALUE IS TAKEN AS INTEGER BUT ITS OUT OF RANGE.
 

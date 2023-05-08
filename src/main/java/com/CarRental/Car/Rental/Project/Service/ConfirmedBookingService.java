@@ -13,6 +13,8 @@ import com.CarRental.Car.Rental.Project.Repositories.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -33,15 +35,16 @@ public class ConfirmedBookingService {
     @Autowired
     DriverRepository driverRepository;
 
-    public ResponseEntity<?>confirmBooking(AtmPagePayloadDTO bookingBody, BindingResult result, int customerId){
+    public ResponseEntity<?>confirmBooking( UserDetails userDetails, AtmPagePayloadDTO bookingBody, BindingResult result){
         if (result.hasErrors()){
 
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is an issue with your fields");
 
         }
-
-            Optional<Customer> byId = customerRepository.findById(customerId);
-            Customer customer = byId.get();
+        String username = userDetails.getUsername();
+        Customer customer = customerRepository.findByEmail(username);
+//        Optional<Customer> byId = customerRepository.findById(customerId);
+//            Customer customer = byId.get();
             Booking booking = customer.getBooking();
         Driver driver1 = driverRepository.findById(Integer.parseInt(bookingBody.getDriverID())).get();
 
@@ -96,8 +99,11 @@ public class ConfirmedBookingService {
 
     }
 
-    public List<ConfirmedBookingResponseDTO>getAllBookings(String userName){
-        Customer customer = customerRepository.findByEmail(userName);
+    public List<ConfirmedBookingResponseDTO>getAllBookings(UserDetails userDetails){
+
+        String username = userDetails.getUsername();
+        Customer customer = customerRepository.findByEmail(username);
+
 
 
         List<ConfirmedBooking> confirmedBookingList = customer.getConfirmedBookingList();
